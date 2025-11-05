@@ -1,3 +1,5 @@
-<?php require_once __DIR__ . DIRECTORY_SEPARATOR .'struct'.DIRECTORY_SEPARATOR. 'header.php'; ?>
-<h1>Accueil</h1>
-<?php require_once __DIR__ . DIRECTORY_SEPARATOR .'struct'.DIRECTORY_SEPARATOR. 'footer.php'; ?>
+<?php include(__DIR__ . DIRECTORY_SEPARATOR . 'header.php'); ?>
+
+<h1>Acceuil</h1>
+
+<?php include(__DIR__ . DIRECTORY_SEPARATOR . 'footer.php'); ?>
