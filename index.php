@@ -1,4 +1,8 @@
-<?php include(__DIR__ . DIRECTORY_SEPARATOR . 'header.php'); ?>
+<?php
+$pageTitre = "Accueil";
+$metaDescription = "Bienvenue sur la page d'accueil de notre site web.";
+include(__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
+?>
 
 <h1>Acceuil</h1>
 

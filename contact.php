@@ -1,4 +1,8 @@
-<?php include(__DIR__ . DIRECTORY_SEPARATOR . 'header.php'); ?>
+<?php
+$pageTitre = "Contact";
+$metaDescription = "Contactez-nous via ce formulaire.";
+include(__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
+?>
 <h1>Contact</h1>
 <form action="#" method="post">
     <div>

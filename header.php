@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Premier Modèle de Page Dynamique</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="description" content="<?=$metaDescription?>">
+    <title><?=$pageTitre?></title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 <header>
     <nav>
         <ul>
-            <li><a href="index.php">Accueil</a></li>
-            <li><a href="contact.php">Contact</a></li>
+            <li><a href="index.php" <?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'class="active"' : '' ?>>Accueil</a></li>
+            <li><a href="contact.php" <?= basename($_SERVER['PHP_SELF']) == 'contact.php' ? 'class="active"' : '' ?>>Contact</a></li>
         </ul>
     </nav>
 </header>
