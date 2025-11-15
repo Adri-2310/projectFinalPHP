@@ -6,4 +6,7 @@ include(__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
 
 <h1>Acceuil</h1>
 
-<?php include(__DIR__ . DIRECTORY_SEPARATOR . 'footer.php'); ?>
+<?php
+// Inclusion du footer (fermeture des balises main/body/html).
+include(__DIR__ . DIRECTORY_SEPARATOR . 'footer.php');
+?>
