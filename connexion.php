@@ -5,12 +5,21 @@
 // On inclut les fonctions de gestion de la base de données (connexionUser, etc.).
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionBdd.php';
 
-// Définition des métadonnées de la page (titre + description).
-$pageTitre = "Connexion";
-$metaDescription = "Bienvenue sur la page de connexion de notre site web.";
+// On inclut les fonctions de gestion de l'authentification.
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
 
 // Démarre ou reprend la session PHP pour pouvoir stocker des informations utilisateur.
 session_start();
+
+// Si l'utilisateur est déjà connecté, le rediriger vers la page de profil.
+if (est_connecte()) {
+    header('Location: profil.php');
+    exit;
+}
+
+// Définition des métadonnées de la page (titre + description).
+$pageTitre = "Connexion";
+$metaDescription = "Bienvenue sur la page de connexion de notre site web.";
 
 // Tableau pour stocker les messages d'erreurs de validation ou de connexion.
 $erreurs = [];
@@ -52,13 +61,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Soit le pseudo n'existe pas, soit le mot de passe est erroné, soit le compte est inactif.
             $erreurs[] = "Identifiants invalides ou compte inactif.";
         } else {
-            // Connexion réussie : on stocke quelques informations dans la session.
-            $_SESSION['utilisateur_id']    = $utilisateur['uti_id'];
+            // Connexion réussie : on appelle la fonction connecter_utilisateur() pour stocker l'ID en session.
+            connecter_utilisateur($utilisateur['uti_id']);
+            
+            // Optionnel : stocker aussi le pseudo et l'email pour la commodité (non nécessaire mais utile).
             $_SESSION['utilisateur_pseudo'] = $utilisateur['uti_pseudo'];
             $_SESSION['utilisateur_email']  = $utilisateur['uti_email'];
 
             // Message de confirmation personnalisé.
             $messageSucces = "Connexion réussie. Bonjour " . htmlspecialchars($utilisateur['uti_pseudo'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . " !";
+            
+            // Redirection vers la page de profil après connexion réussie.
+            header('Location: profil.php');
+            exit;
         }
     }
 }
@@ -71,7 +86,7 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
 
 <?php if (!empty($erreurs)) : ?>
     <!-- Affichage des erreurs de connexion / validation -->
-    <div style="color: red;">
+    <div class="error-container">
         <ul>
             <?php foreach ($erreurs as $erreur) : ?>
                 <li><?= htmlspecialchars($erreur, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></li>
@@ -82,14 +97,14 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
 
 <?php if ($messageSucces !== '') : ?>
     <!-- Affichage du message de succès si la connexion a réussi -->
-    <div style="color: green;">
+    <div class="success-container">
         <?= $messageSucces ?>
     </div>
 <?php endif; ?>
 
 <!-- Formulaire de connexion -->
 <form action="" method="post">
-    <div>
+    <div class="form-group">
         <label for="connexion_pseudo">Pseudo</label>
         <input
             type="text"
@@ -102,7 +117,7 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
         >
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="connexion_motDePasse">Mot de passe</label>
         <input
             type="password"

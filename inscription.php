@@ -5,6 +5,18 @@
 // On inclut les fonctions de gestion de la base de données (connexion, insertion, etc.).
 require_once(__DIR__ ).DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'gestionBdd.php';
 
+// On inclut les fonctions de gestion de l'authentification.
+require_once(__DIR__ ).DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'gestionAuthentification.php';
+
+// Démarre ou reprend la session PHP pour pouvoir stocker des informations utilisateur.
+session_start();
+
+// Si l'utilisateur est déjà connecté, le rediriger vers la page de profil.
+if (est_connecte()) {
+    header('Location: profil.php');
+    exit;
+}
+
 // Définir les métadonnées de la page (utilisées dans header.php).
 $pageTitre = "Inscription";
 $metaDescription = "Bienvenue sur la page d'inscription de notre site web.";
@@ -93,7 +105,7 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
 <h1>Inscription</h1>
 
 <?php if (!empty($erreurs)) : ?>
-    <div style="color: red;">
+    <div class="error-container">
         <ul>
             <?php foreach ($erreurs as $erreur) : ?>
                 <li><?= htmlspecialchars($erreur, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></li>
@@ -103,13 +115,13 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
 <?php endif; ?>
 
 <?php if ($succes) : ?>
-    <div style="color: green;">
+    <div class="success-container">
         Votre inscription a été réalisée avec succès.
     </div>
 <?php endif; ?>
 
 <form action="" method="post">
-    <div>
+    <div class="form-group">
         <label for="inscription_pseudo">Pseudo</label>
         <input
             type="text"
@@ -122,7 +134,7 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
         >
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="inscription_email">Email</label>
         <input
             type="email"
@@ -133,7 +145,7 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
         >
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="inscription_motDePasse">Mot de passe</label>
         <input
             type="password"
@@ -145,7 +157,7 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
         >
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="inscription_motDePasse_confirmation">Confirmation du mot de passe</label>
         <input
             type="password"

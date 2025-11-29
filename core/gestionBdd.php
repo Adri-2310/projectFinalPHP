@@ -45,31 +45,21 @@ function addNewUser(string $pseudo, string $email, string $passwordHash): void
             INSERT INTO t_utilisateur_uti (
                 uti_pseudo,
                 uti_email,
-                uti_motdepasse,
-                uti_compte_active,
-                uti_code_activation
+                uti_motdepasse
             ) VALUES (
                 :pseudo,
                 :email,
-                :motdepasse,
-                :compte_active,
-                :code_activation
+                :motdepasse
             )
         ';
 
         // Préparation de la requête pour éviter les injections SQL.
         $stmt = $pdo->prepare($requete);
 
-        // Par défaut, on active le compte et on ne définit pas de code d'activation.
-        $compteActive   = 1;
-        $codeActivation = null;
-
         // Association des paramètres nommés aux valeurs PHP.
         $stmt->bindParam(':pseudo', $pseudo);
         $stmt->bindParam(':email', $email );
         $stmt->bindParam(':motdepasse', $passwordHash);
-        $stmt->bindParam(':compte_active', $compteActive);
-        $stmt->bindParam(':code_activation', $codeActivation);
 
         // Exécution de la requête SQL.
         $stmt->execute();
@@ -143,9 +133,7 @@ function connexionUser(string $pseudo, string $motDePasse): ?array
             SELECT uti_id,
                    uti_pseudo,
                    uti_email,
-                   uti_motdepasse,
-                   uti_compte_active,
-                   uti_code_activation
+                   uti_motdepasse
             FROM t_utilisateur_uti
             WHERE uti_pseudo = :pseudo
             LIMIT 1
@@ -160,11 +148,6 @@ function connexionUser(string $pseudo, string $motDePasse): ?array
 
         // Si aucun utilisateur trouvé, on retourne null.
         if (!$utilisateur) {
-            return null;
-        }
-
-        // Vérifier si le compte est actif (si votre logique prévoit des comptes désactivés).
-        if (isset($utilisateur['uti_compte_active']) && (int)$utilisateur['uti_compte_active'] !== 1) {
             return null;
         }
 
@@ -183,6 +166,56 @@ function connexionUser(string $pseudo, string $motDePasse): ?array
     } catch (PDOException $e) {
         // En production : log de l'erreur dans un fichier.
         echo "Erreur lors de la connexion de l'utilisateur : " . $e->getMessage();
+        return null;
+    } finally {
+        // Fermeture de la connexion.
+        if (isset($pdo)) {
+            $pdo = null;
+        }
+    }
+}
+
+/**
+ * Récupère les informations d'un utilisateur en fonction de son ID.
+ *
+ * @param int $utilisateurId ID de l'utilisateur à récupérer.
+ *
+ * @return array|null Retourne les données de l'utilisateur si trouvé, sinon null.
+ */
+function obtenirUtilisateurParId(int $utilisateurId): ?array
+{
+    try {
+        // Connexion à la base de données.
+        $pdo = obtenirConnexionBdd();
+
+        // Requête SQL : on récupère l'utilisateur correspondant à l'ID fourni.
+        $sql = '
+            SELECT uti_id,
+                   uti_pseudo,
+                   uti_email
+            FROM t_utilisateur_uti
+            WHERE uti_id = :id
+            LIMIT 1
+        ';
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $utilisateurId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Récupération des données utilisateur.
+        $utilisateur = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Si aucun utilisateur trouvé, on retourne null.
+        if (!$utilisateur) {
+            return null;
+        }
+
+        // Retourner les données utilisateur.
+        return $utilisateur;
+
+    } catch (PDOException $e) {
+        // En production : log de l'erreur dans un fichier.
+        echo "Erreur lors de la récupération de l'utilisateur : " . $e->getMessage();
         return null;
     } finally {
         // Fermeture de la connexion.
