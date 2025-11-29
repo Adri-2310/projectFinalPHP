@@ -9,6 +9,13 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+html {
+    width: 100%;
+    overflow-x: hidden;
 }
 
 /* Augmenter la taille de tous les paragraphes */
@@ -98,6 +105,8 @@ main {
     margin: 2rem auto;
     padding: 2rem;
     width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 main > h1 {
@@ -185,16 +194,28 @@ input, textarea, select {
     font-family: inherit;
     font-size: 1rem;
     transition: all 0.3s ease;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    transform: scale(1.01);
 }
 
 input::placeholder {
     color: var(--text-light);
+}
+
+/* Optimisation pour mobile */
+@media (max-width: 768px) {
+    input, textarea, select {
+        font-size: 16px;
+        padding: 0.65rem;
+    }
 }
 
 button {
@@ -245,6 +266,14 @@ footer p {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    body {
+        line-height: 1.5;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
     nav ul {
         gap: 0.5rem;
     }
@@ -263,12 +292,53 @@ footer p {
         font-size: 1.8rem;
     }
 
+    .hero-section h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .logo-image {
+        width: 300px;
+        padding: 0.5rem;
+        margin: 1rem auto;
+    }
+
+    main > p {
+        font-size: 1.1rem;
+        padding: 1rem;
+    }
+
     form {
         padding: 1.5rem;
+        max-width: 100%;
+    }
+
+    form div {
+        margin-bottom: 1rem;
+    }
+
+    label {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    input, textarea, select {
+        padding: 0.65rem;
+        font-size: 1rem;
+    }
+
+    button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
     }
 
     header nav {
         padding: 1rem;
+    }
+
+    footer {
+        padding: 1rem;
+        font-size: 0.8rem;
     }
 }
 
@@ -346,3 +416,5 @@ main > p a:hover {
     color: var(--primary-dark);
     text-decoration: underline;
 }
+
+

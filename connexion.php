@@ -134,7 +134,7 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
 
 <p>
     Pas encore de compte ?
-    <a href="inscription.php">Inscrivez-vous</a>.
+    <a href="/inscription">Inscrivez-vous</a>.
 </p>
 
 <?php

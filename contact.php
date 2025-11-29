@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <!-- Formulaire de contact -->
-<form method="post" action="contact.php">
+<form method="post" action="/contact">
     <div class="form-group">
         <label for="nom">Nom *:</label>
         <input
