@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Ne pas appliquer les règles sur les fichiers ou répertoires existants
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
+    RewriteRule ^(.+)\.php$ /$1 [R=301,L]
+    
+    
+    RewriteRule ^([a-zA-Z0-9_-]+)/?$ $1.php [L]
+</IfModule>
+
+# Masquer le listing des répertoires
+Options -Indexes

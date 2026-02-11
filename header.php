@@ -7,16 +7,17 @@
     <!-- Description de la page, définie dans chaque fichier PHP avant l'inclusion du header -->
     <meta name="description" content="<?=$metaDescription?>">
     <title><?=$pageTitre?></title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css?v=<?php echo time(); ?>">
 </head>
 <body>
 <header>
     <nav>
         <ul>
-            <li><a href="index.php" <?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'class="active"' : '' ?>>Accueil</a></li>
-            <li><a href="contact.php" <?= basename($_SERVER['PHP_SELF']) == 'contact.php' ? 'class="active"' : '' ?>>Contact</a></li>
-            <li><a href="inscription.php" <?= basename($_SERVER['PHP_SELF']) == 'inscription.php' ? 'class="active"' : ''  ?>>Inscription</a></li>
-            <li><a href="connexion.php" <?= basename($_SERVER['PHP_SELF']) == 'connexion.php' ? 'class="active"' : ''  ?>>Connexion</a></li>
+            <li><a href="/" <?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'class="active"' : '' ?>>Accueil</a></li>
+            <li><a href="/contact" <?= basename($_SERVER['PHP_SELF']) == 'contact.php' ? 'class="active"' : '' ?>>Contact</a></li>
+            <li><a href="/inscription" <?= basename($_SERVER['PHP_SELF']) == 'inscription.php' ? 'class="active"' : ''  ?>>Inscription</a></li>
+            <li><a href="/connexion" <?= basename($_SERVER['PHP_SELF']) == 'connexion.php' ? 'class="active"' : ''  ?>>Connexion</a></li>
+            <li><a href="/profil" <?= basename($_SERVER['PHP_SELF']) == 'profil.php' ? 'class="active"' : ''  ?>>Profil</a></li>
         </ul>
     </nav>
 </header>

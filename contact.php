@@ -76,19 +76,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
     <?php if ($hasError): ?>
         <!-- Message global si le formulaire contient des erreurs -->
-        <div class="alert error">
+        <div class="error-container">
             Le formulaire contient des erreurs. Veuillez les corriger.
         </div>
     <?php else: ?>
         <!-- Message global si le formulaire est correct -->
-        <div class="alert success">
+        <div class="success-container">
             <?= $successMessage ?>
         </div>
     <?php endif; ?>
 <?php endif; ?>
 
 <!-- Formulaire de contact -->
-<form method="post" action="contact.php">
+<form method="post" action="/contact">
     <div class="form-group">
         <label for="nom">Nom *:</label>
         <input
