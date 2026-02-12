@@ -1,7 +1,7 @@
 <?php
 $pageTitre = "Accueil";
 $metaDescription = "Bienvenue sur la page d'accueil de notre site web.";
-require_once __DIR__ . '/../templates/layout/header.php';
+require_once __DIR__ . '/templates/layout/header.php';
 ?>
 
 <div class="hero-section">
@@ -11,5 +11,5 @@ require_once __DIR__ . '/../templates/layout/header.php';
 
 <?php
 // Inclusion du footer (fermeture des balises main/body/html).
-require_once __DIR__ . '/../templates/layout/footer.php';
+require_once __DIR__ . '/templates/layout/footer.php';
 ?>

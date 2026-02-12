@@ -13,11 +13,11 @@
 <header>
     <nav>
         <ul>
-            <li><a href="/public/index.php" <?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'class="active"' : '' ?>>Accueil</a></li>
-            <li><a href="/public/contact.php" <?= basename($_SERVER['PHP_SELF']) == 'contact.php' ? 'class="active"' : '' ?>>Contact</a></li>
-            <li><a href="/public/inscription.php" <?= basename($_SERVER['PHP_SELF']) == 'inscription.php' ? 'class="active"' : ''  ?>>Inscription</a></li>
-            <li><a href="/public/connexion.php" <?= basename($_SERVER['PHP_SELF']) == 'connexion.php' ? 'class="active"' : ''  ?>>Connexion</a></li>
-            <li><a href="/public/profil.php" <?= basename($_SERVER['PHP_SELF']) == 'profil.php' ? 'class="active"' : ''  ?>>Profil</a></li>
+            <li><a href="/index.php" <?= basename($_SERVER['SCRIPT_NAME']) == 'index.php' ? 'class="active"' : '' ?>>Accueil</a></li>
+            <li><a href="/public/contact.php" <?= basename($_SERVER['SCRIPT_NAME']) == 'contact.php' ? 'class="active"' : '' ?>>Contact</a></li>
+            <li><a href="/public/inscription.php" <?= basename($_SERVER['SCRIPT_NAME']) == 'inscription.php' ? 'class="active"' : ''  ?>>Inscription</a></li>
+            <li><a href="/public/connexion.php" <?= basename($_SERVER['SCRIPT_NAME']) == 'connexion.php' ? 'class="active"' : ''  ?>>Connexion</a></li>
+            <li><a href="/public/profil.php" <?= basename($_SERVER['SCRIPT_NAME']) == 'profil.php' ? 'class="active"' : ''  ?>>Profil</a></li>
         </ul>
     </nav>
 </header>

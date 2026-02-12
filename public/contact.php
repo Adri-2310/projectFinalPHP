@@ -6,6 +6,12 @@
 $pageTitre = "Contact";
 $metaDescription = "Contactez-nous via ce formulaire.";
 
+// Démarre la session de manière sécurisée
+require_once __DIR__ . '/../config/session.php';
+
+// Inclure les fonctions CSRF
+require_once __DIR__ . '/../src/csrf.php';
+
 // Inclusion du header (structure HTML + menu).
 require_once __DIR__ . '/../templates/layout/header.php';
 
@@ -20,6 +26,12 @@ $hasError = false;
 
 // Traitement du formulaire si celui-ci a été soumis en POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Vérifier le token CSRF
+    if (!verifierTokenCSRF()) {
+        $errors['csrf'] = "Token de sécurité invalide. Veuillez réessayer.";
+        $hasError = true;
+    }
+
     // Nettoyage et récupération des données envoyées par l'utilisateur.
     $nom = trim($_POST['nom'] ?? '');
     $prenom = trim($_POST['prenom'] ?? '');
@@ -88,7 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <!-- Formulaire de contact -->
-<form method="post" action="contact.phpphp">
+<form method="post" action="contact.php">
+    <?= champTokenCSRF() ?>
     <div class="form-group">
         <label for="nom">Nom *:</label>
         <input
@@ -102,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         >
         <?php if (isset($errors['nom'])): ?>
             <!-- Affichage du message d'erreur spécifique au champ "nom" -->
-            <span class="error-message"><?= $errors['nom'] ?></span>
+            <span class="error-message"><?= htmlspecialchars($errors['nom'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></span>
         <?php endif; ?>
     </div>
 
@@ -118,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         >
         <?php if (isset($errors['prenom'])): ?>
             <!-- Affichage du message d'erreur spécifique au champ "prénom" -->
-            <span class="error-message"><?= $errors['prenom'] ?></span>
+            <span class="error-message"><?= htmlspecialchars($errors['prenom'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></span>
         <?php endif; ?>
     </div>
 
@@ -133,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         >
         <?php if (isset($errors['email'])): ?>
             <!-- Affichage du message d'erreur spécifique au champ "email" -->
-            <span class="error-message"><?= $errors['email'] ?></span>
+            <span class="error-message"><?= htmlspecialchars($errors['email'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></span>
         <?php endif; ?>
     </div>
 
@@ -148,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ><?= htmlspecialchars($message) ?></textarea>
         <?php if (isset($errors['message'])): ?>
             <!-- Affichage du message d'erreur spécifique au champ "message" -->
-            <span class="error-message"><?= $errors['message'] ?></span>
+            <span class="error-message"><?= htmlspecialchars($errors['message'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></span>
         <?php endif; ?>
     </div>
 

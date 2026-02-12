@@ -64,8 +64,15 @@ function addNewUser(string $pseudo, string $email, string $passwordHash): void
         // Exécution de la requête SQL.
         $stmt->execute();
     } catch (PDOException $e) {
-        // En environnement de production, il serait préférable de loguer l'erreur plutôt que de l'afficher.
-        echo "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage();
+        // Loguer l'erreur dans le fichier de logs
+        error_log("Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage());
+
+        // Afficher un message générique à l'utilisateur
+        if (defined('DEV_MODE') && DEV_MODE) {
+            echo "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage();
+        } else {
+            echo "Une erreur est survenue lors de l'inscription. Veuillez réessayer ultérieurement.";
+        }
     } finally {
         // On ferme proprement la connexion si elle existe.
         if (isset($pdo)) {
@@ -103,8 +110,13 @@ function isPseudoDisponible(string $pseudo): bool
         // Sinon, le pseudo est disponible.
         return true;
     } catch (PDOException $e) {
-        // En production, on logue l'erreur. Ici, on affiche et on considère le pseudo comme non disponible.
-        echo "Erreur lors de la vérification du pseudo : " . $e->getMessage();
+        // Loguer l'erreur dans le fichier de logs
+        error_log("Erreur lors de la vérification du pseudo : " . $e->getMessage());
+
+        // En cas d'erreur, on considère le pseudo comme non disponible par sécurité
+        if (defined('DEV_MODE') && DEV_MODE) {
+            echo "Erreur lors de la vérification du pseudo : " . $e->getMessage();
+        }
         return false;
     } finally {
         // Fermeture de la connexion.
@@ -164,8 +176,13 @@ function connexionUser(string $pseudo, string $motDePasse): ?array
         return $utilisateur;
 
     } catch (PDOException $e) {
-        // En production : log de l'erreur dans un fichier.
-        echo "Erreur lors de la connexion de l'utilisateur : " . $e->getMessage();
+        // Loguer l'erreur dans le fichier de logs
+        error_log("Erreur lors de la connexion de l'utilisateur : " . $e->getMessage());
+
+        // Afficher un message générique
+        if (defined('DEV_MODE') && DEV_MODE) {
+            echo "Erreur lors de la connexion de l'utilisateur : " . $e->getMessage();
+        }
         return null;
     } finally {
         // Fermeture de la connexion.
@@ -214,8 +231,13 @@ function obtenirUtilisateurParId(int $utilisateurId): ?array
         return $utilisateur;
 
     } catch (PDOException $e) {
-        // En production : log de l'erreur dans un fichier.
-        echo "Erreur lors de la récupération de l'utilisateur : " . $e->getMessage();
+        // Loguer l'erreur dans le fichier de logs
+        error_log("Erreur lors de la récupération de l'utilisateur : " . $e->getMessage());
+
+        // Afficher un message générique
+        if (defined('DEV_MODE') && DEV_MODE) {
+            echo "Erreur lors de la récupération de l'utilisateur : " . $e->getMessage();
+        }
         return null;
     } finally {
         // Fermeture de la connexion.

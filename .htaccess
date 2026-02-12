@@ -1,0 +1,23 @@
+# Interdire l'accès direct à la racine - Protection globale
+Options -Indexes
+
+# Bloquer l'accès aux dossiers sensibles
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Bloquer l'accès direct aux dossiers (mais pas via includes PHP)
+    RewriteRule ^(config|src|storage|templates|database)/ - [F,L]
+</IfModule>
+
+# Protection des fichiers sensibles
+<FilesMatch "\.(env|log|sql|md|json|bak|tmp)$">
+    Require all denied
+</FilesMatch>
+
+# Headers de sécurité
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

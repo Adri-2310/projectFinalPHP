@@ -3,13 +3,16 @@
 // Cette page permet à un nouvel utilisateur de créer un compte (inscription).
 
 // On inclut les fonctions de gestion de la base de données (connexion, insertion, etc.).
-require_once __DIR__ . '/../core/gestionBdd.php';
+require_once __DIR__ . '/../src/gestionBdd.php';
 
 // On inclut les fonctions de gestion de l'authentification.
-require_once __DIR__ . '/../core/gestionAuthentification.php';
+require_once __DIR__ . '/../src/gestionAuthentification.php';
 
-// Démarre ou reprend la session PHP pour pouvoir stocker des informations utilisateur.
-session_start();
+// Démarre ou reprend la session PHP de manière sécurisée
+require_once __DIR__ . '/../config/session.php';
+
+// Inclure les fonctions CSRF
+require_once __DIR__ . '/../src/csrf.php';
 
 // Si l'utilisateur est déjà connecté, le rediriger vers la page de profil.
 if (est_connecte()) {
@@ -32,6 +35,11 @@ $email = '';
 
 // Vérifier si le formulaire a été soumis via la méthode POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Vérifier le token CSRF
+    if (!verifierTokenCSRF()) {
+        $erreurs[] = "Token de sécurité invalide. Veuillez réessayer.";
+    }
+
     // Récupération et nettoyage des données du formulaire.
     $pseudo   = isset($_POST['inscription_pseudo']) ? trim($_POST['inscription_pseudo']) : '';
     $email    = isset($_POST['inscription_email']) ? trim($_POST['inscription_email']) : '';
@@ -121,6 +129,7 @@ require_once __DIR__ . '/../templates/layout/header.php';
 <?php endif; ?>
 
 <form action="" method="post">
+    <?= champTokenCSRF() ?>
     <div class="form-group">
         <label for="inscription_pseudo">Pseudo</label>
         <input

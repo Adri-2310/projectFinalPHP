@@ -3,13 +3,16 @@
 // Cette page affiche le profil de l'utilisateur connecté et permet la déconnexion.
 
 // On inclut les fonctions de gestion de la base de données.
-require_once __DIR__ . '/core/gestionBdd.php';
+require_once __DIR__ . '/../src/gestionBdd.php';
 
 // On inclut les fonctions de gestion de l'authentification.
-require_once __DIR__ . '/core/gestionAuthentification.php';
+require_once __DIR__ . '/../src/gestionAuthentification.php';
 
-// Démarre ou reprend la session PHP.
-session_start();
+// Démarre ou reprend la session PHP de manière sécurisée
+require_once __DIR__ . '/../config/session.php';
+
+// Inclure les fonctions CSRF
+require_once __DIR__ . '/../src/csrf.php';
 
 // Si l'utilisateur n'est pas connecté, le rediriger vers la page de connexion.
 if (!est_connecte()) {
@@ -27,6 +30,9 @@ $messageDeconnexion = '';
 
 // Si le formulaire de déconnexion est soumis.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deconnexion') {
+    // Vérifier le token CSRF
+    verifierCSRFOuMourir('profil.php');
+
     // Appeler la fonction de déconnexion.
     deconnecter_utilisateur();
     
@@ -64,7 +70,15 @@ try {
         exit;
     }
 } catch (PDOException $e) {
-    echo "Erreur lors de la récupération du profil : " . $e->getMessage();
+    // Loguer l'erreur
+    error_log("Erreur lors de la récupération du profil : " . $e->getMessage());
+
+    // Afficher un message générique
+    if (defined('DEV_MODE') && DEV_MODE) {
+        echo "Erreur lors de la récupération du profil : " . $e->getMessage();
+    } else {
+        echo "Une erreur est survenue lors du chargement de votre profil.";
+    }
     exit;
 }
 
@@ -73,7 +87,7 @@ $pageTitre = "Profil";
 $metaDescription = "Bienvenue sur votre page de profil.";
 
 // Inclusion du header commun (titre, meta, menu).
-require_once __DIR__ . '/templates/layout/header.php';
+require_once __DIR__ . '/../templates/layout/header.php';
 ?>
 
 <h1>Profil</h1>
@@ -92,6 +106,7 @@ require_once __DIR__ . '/templates/layout/header.php';
 
     <!-- Formulaire de déconnexion -->
     <form action="" method="post">
+        <?= champTokenCSRF() ?>
         <input type="hidden" name="action" value="deconnexion">
         <button type="submit">Déconnexion</button>
     </form>
@@ -101,5 +116,5 @@ require_once __DIR__ . '/templates/layout/header.php';
 
 <?php
 // Inclusion du footer pour fermer correctement le HTML.
-require_once __DIR__ . '/templates/layout/footer.php';
+require_once __DIR__ . '/../templates/layout/footer.php';
 ?>
