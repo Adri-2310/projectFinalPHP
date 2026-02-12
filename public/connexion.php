@@ -3,10 +3,10 @@
 // Cette page permet à un utilisateur existant de se connecter à son compte.
 
 // On inclut les fonctions de gestion de la base de données (connexionUser, etc.).
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionBdd.php';
+require_once __DIR__ . '/../core/gestionBdd.php';
 
 // On inclut les fonctions de gestion de l'authentification.
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+require_once __DIR__ . '/../core/gestionAuthentification.php';
 
 // Démarre ou reprend la session PHP pour pouvoir stocker des informations utilisateur.
 session_start();
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Inclusion du header commun (titre, meta, menu).
-include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
+require_once __DIR__ . '/../templates/layout/header.php';
 ?>
 
 <h1>Connexion</h1>
@@ -134,10 +134,10 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
 
 <p>
     Pas encore de compte ?
-    <a href="/inscription">Inscrivez-vous</a>.
+    <a href="inscription.php">Inscrivez-vous</a>.
 </p>
 
 <?php
 // Inclusion du footer pour fermer correctement le HTML.
-include(__DIR__ . DIRECTORY_SEPARATOR . 'footer.php');
+require_once __DIR__ . '/../templates/layout/footer.php';
 ?>

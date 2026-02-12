@@ -3,10 +3,10 @@
 // Cette page permet à un nouvel utilisateur de créer un compte (inscription).
 
 // On inclut les fonctions de gestion de la base de données (connexion, insertion, etc.).
-require_once(__DIR__ ).DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'gestionBdd.php';
+require_once __DIR__ . '/../core/gestionBdd.php';
 
 // On inclut les fonctions de gestion de l'authentification.
-require_once(__DIR__ ).DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'gestionAuthentification.php';
+require_once __DIR__ . '/../core/gestionAuthentification.php';
 
 // Démarre ou reprend la session PHP pour pouvoir stocker des informations utilisateur.
 session_start();
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Inclusion du header (titre, meta, menu).
-include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
+require_once __DIR__ . '/../templates/layout/header.php';
 ?>
 
 <h1>Inscription</h1>
@@ -174,6 +174,6 @@ include (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
 
 <?php
 // Inclusion du footer (fermeture des balises HTML).
-include(__DIR__ . DIRECTORY_SEPARATOR . 'footer.php');
+require_once __DIR__ . '/../templates/layout/footer.php';
 ?>
 

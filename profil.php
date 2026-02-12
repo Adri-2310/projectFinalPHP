@@ -3,10 +3,10 @@
 // Cette page affiche le profil de l'utilisateur connecté et permet la déconnexion.
 
 // On inclut les fonctions de gestion de la base de données.
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionBdd.php';
+require_once __DIR__ . '/core/gestionBdd.php';
 
 // On inclut les fonctions de gestion de l'authentification.
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+require_once __DIR__ . '/core/gestionAuthentification.php';
 
 // Démarre ou reprend la session PHP.
 session_start();
@@ -73,7 +73,7 @@ $pageTitre = "Profil";
 $metaDescription = "Bienvenue sur votre page de profil.";
 
 // Inclusion du header commun (titre, meta, menu).
-include __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
+require_once __DIR__ . '/templates/layout/header.php';
 ?>
 
 <h1>Profil</h1>
@@ -101,5 +101,5 @@ include __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
 
 <?php
 // Inclusion du footer pour fermer correctement le HTML.
-include __DIR__ . DIRECTORY_SEPARATOR . 'footer.php';
+require_once __DIR__ . '/templates/layout/footer.php';
 ?>

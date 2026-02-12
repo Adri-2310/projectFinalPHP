@@ -7,7 +7,7 @@ $pageTitre = "Contact";
 $metaDescription = "Contactez-nous via ce formulaire.";
 
 // Inclusion du header (structure HTML + menu).
-include(__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
+require_once __DIR__ . '/../templates/layout/header.php';
 
 // Initialisation des variables avec des valeurs vides.
 $nom = $prenom = $email = $message = '';
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <!-- Formulaire de contact -->
-<form method="post" action="/contact">
+<form method="post" action="contact.phpphp">
     <div class="form-group">
         <label for="nom">Nom *:</label>
         <input
@@ -160,5 +160,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php
 // Inclusion du footer pour fermer correctement les balises HTML.
-include(__DIR__ . DIRECTORY_SEPARATOR . 'footer.php');
+require_once __DIR__ . '/../templates/layout/footer.php';
 ?>

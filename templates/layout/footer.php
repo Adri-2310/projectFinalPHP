@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 </main>
 <footer>
     <!-- Pied de page simple avec un texte de copyright -->
